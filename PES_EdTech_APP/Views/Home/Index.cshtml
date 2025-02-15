@@ -1,8 +1,51 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-4 shadow-sm">
+                <h1 class="text-center">EdTech Quiz Generator</h1>
+                <div class="input-group mt-3">
+                    <textarea id="input-text" class="form-control" placeholder="Enter your prompt..."></textarea>
+                    <button class="btn btn-light"><i class="fa fa-microphone" disbled></i></button>
+                    @* onclick="uploadVoice()" *@
+                    <button class="btn btn-light"><i class="fa fa-camera" disabled></i></button>
+                    @* onclick="uploadImage()" *@
+                    <button class="btn btn-light" onclick="document.getElementById('fileInput').click();">
+                        <i class="fa fa-file"></i>
+                    </button>
+                </div>
+                <button class="btn btn-primary w-100 mt-3" onclick="generateQuiz()">Generate Quiz</button>
+                <div class="mt-3 p-3 border rounded" id="quiz-result">
+                    <h3>Generated Quiz:</h3>
+                    <p id="quiz-content">Your quiz will appear here...</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    function uploadFile() {
+        alert("File upload functionality coming soon!");
+    }
+    function uploadImage() {
+        alert("Image upload functionality coming soon!");
+    }
+    function uploadVoice() {
+        alert("Voice upload functionality coming soon!");
+    }
+    function generateQuiz() {
+        let inputText = document.getElementById("input-text").value.trim();
+        if (!inputText) {
+            alert("Please enter text or upload a file/image/voice.");
+            return;
+        }
+        document.getElementById("quiz-content").innerHTML = `
+                <ul>
+                    <li>1. What is the key concept in this text?</li>
+                    <li>2. Identify the main points discussed.</li>
+                    <li>3. Summarize the text.</li>
+                </ul>`;
+    }
+</script>
