@@ -44,6 +44,25 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initially disable button until input is provided
     goNextBtn.setAttribute("disabled", "true");
 
+    form.addEventListener("submit", (event) => {
+        let isValid = true;
+        let errorMessage = "";
+
+        // Validate Quiz Topic
+        if (inputText.value.trim().length === 0 && fileInput.files.length === 0) {
+            isValid = false;
+            errorMessage = "Please enter a quiz topic or attach a file before proceeding.";
+        }
+
+        if (!isValid) {
+            event.preventDefault(); // Stop form submission
+            alert(errorMessage);
+        } else {
+            // Store Quiz Topic in localStorage before redirecting
+            localStorage.setItem("quizTopic", inputText.value.trim());
+        }
+    });
+
     //goNextBtn.addEventListener("click", () => {
     //    quizForm.classList.remove("hidden");
     //    inputSection.classList.add("hidden");

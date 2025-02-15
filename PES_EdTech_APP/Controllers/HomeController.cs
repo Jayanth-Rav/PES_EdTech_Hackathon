@@ -24,8 +24,9 @@ namespace PES_EdTech_APP.Controllers
             return View();
         }
 
-        public IActionResult QuizPreference()
+        public IActionResult QuizPreference(string inputText)
         {
+            ViewBag.InputText = inputText;
             return View();
         }
 
@@ -34,21 +35,23 @@ namespace PES_EdTech_APP.Controllers
         {
             try
             {
+                Questions question = new Questions();
                 string data = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _client.PostAsync(_client.BaseAddress + "/QuizQuestion/GetQuizQuestions/GetQuizQuestions", content);
                 if (response.IsSuccessStatusCode)
                 {
-                    TempData["successMessage"] = "Employee Added.";
-                    return RedirectToAction("Index");
+                    string questionData = await response.Content.ReadAsStringAsync();
+                    question = JsonConvert.DeserializeObject<Questions>(questionData)!;
+                    return RedirectToAction("QuizPage");
                 }
+                return View(question);
             }
             catch (Exception ex)
             {
                 TempData["errorMessage"] = ex.Message;
                 return View();
             }
-            return View();
         }
 
         public IActionResult QuizPage()
