@@ -1,36 +1,44 @@
-﻿@{
+﻿@model List<Questions>
+
+@{
     ViewData["Title"] = "Home Page";
 }
-<link rel="stylesheet" href="~/css/Index.cshtml.css">
+<link rel="stylesheet" href="~/css/QuizPage.cshtml.css">
 <!-- Quiz Display Area (Hidden Initially) -->
 
 
-<form asp-controller="Home" asp-action="Index" method="get">
-    <div id="quiz-section" class="hidden mt-3">
-        <span id="quiz-question" class="text-center" style="color: #007bff; font-weight: bold;">Questions</span>
+<div id="quiz-section" class="mt-3">
+    <h2 class="text-center" style="color: #007bff; font-weight: bold;">Questions</h2>
 
-
-        <div class="list-group mt-3" id="quiz-options">
-
-        </div>
-
-        <div class="d-flex justify-content-between mt-3">
-            <button class="btn btn-secondary" id="prev-btn">Previous</button>
-            <button class="btn btn-primary" id="next-btn">Next</button>
-        </div>
-
-        <button class="btn btn-danger w-100 mt-3" type="submit">Exit Quiz</button>
+    <div class="list-group mt-3" id="quiz-options">
+        @if (Model != null && Model.Count > 0)
+        {
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="question-block" data-index="@i">
+                    <p>@Model[i].Question</p>
+                    @foreach (var option in Model[i].Options)
+                    {
+                        <button type="button" class="list-group-item list-group-item-action quiz-option" data-answer="@Model[i].AnswerId" data-option="@option.OptionId">
+                            @option.Option
+                        </button>
+                    }
+                </div>
+            }
+        }
+        else
+        {
+            <p>No questions available.</p>
+        }
     </div>
-    @* <button id="goNextButton" class="btn btn-success w-100 mt-3 hidden" type="submit">Go Next</button> *@
-</form>
-<form asp-controller="Home" asp-action="QuizResult" method="post"> 
-    <button id="submit-quiz-btn" class="btn btn-success rounded-circle" type="submit"
-            style="display: block; margin: 35px auto 0; width: 100px; height: 67px; font-size: 13px; text-align: center;">
-        SUBMIT ✔
-    </button>
 
-</form>
+    <div class="d-flex justify-content-between mt-3">
+        <button class="btn btn-secondary" id="prev-btn">Previous</button>
+        <button class="btn btn-primary" id="next-btn">Next</button>
+    </div>
 
+    <button class="btn btn-success w-100 mt-3" id="submit-quiz-btn">Submit</button>
+</div>
 
 @section Scripts
 {

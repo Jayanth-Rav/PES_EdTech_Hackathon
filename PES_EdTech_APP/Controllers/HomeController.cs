@@ -35,28 +35,46 @@ namespace PES_EdTech_APP.Controllers
         {
             try
             {
-                List<Questions> question = new List<Questions>();
+                // Serialize the model to JSON
                 string data = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+
+                // Send request to external API to get quiz questions
                 HttpResponseMessage response = await _client.PostAsync(_client.BaseAddress + "/QuizQuestion/GetQuizQuestions/GetQuizQuestions", content);
+
                 if (response.IsSuccessStatusCode)
                 {
+                    // Read response and deserialize into a list of questions
                     string questionData = await response.Content.ReadAsStringAsync();
-                    question = JsonConvert.DeserializeObject<List<Questions>>(questionData)!;
+                    List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(questionData)!;
+
+                    // Store questions in TempData to persist across redirection
+                    TempData["QuizQuestions"] = JsonConvert.SerializeObject(questions);
+
+                    // Redirect to QuizPage
                     return RedirectToAction("QuizPage");
                 }
-                return View(question);
+
+                TempData["errorMessage"] = "Failed to fetch questions.";
+                return RedirectToAction("QuizPage");
             }
             catch (Exception ex)
             {
                 TempData["errorMessage"] = ex.Message;
-                return View();
+                return RedirectToAction("QuizPage");
             }
         }
 
         public IActionResult QuizPage()
         {
-            return View();
+            if (TempData["QuizQuestions"] != null)
+            {
+                string questionData = TempData["QuizQuestions"]!.ToString()!;
+                List<Questions> questions = JsonConvert.DeserializeObject<List<Questions>>(questionData)!;
+                return View(questions);
+            }
+
+            return View(new List<Questions>()); // Empty list if no data
         }
 
         public IActionResult Privacy()
