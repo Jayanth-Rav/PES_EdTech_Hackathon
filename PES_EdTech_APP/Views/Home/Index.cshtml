@@ -43,13 +43,19 @@
         border-radius: 8px;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     }
+
+    .file-label {
+        font-size: 14px;
+        margin-top: 5px;
+        color: #555;
+    }
 </style>
 
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card p-4">
-                <h1 class="text-center">EdTech Quiz Generator</h1>
+                <h1 class="text-center">Quizify: AI Quiz Creator</h1>
 
                 <!-- Input Section -->
                 <div id="input-section">
@@ -62,6 +68,9 @@
                         </button>
                         <input type="file" id="fileInput" style="display:none" onchange="handleFileSelection()">
                     </div>
+
+                    <!-- File Name Display -->
+                    <div id="file-name" class="file-label hidden"></div>
 
                     <!-- Go Next Button -->
                     <button class="btn btn-success w-100 mt-3 hidden" id="go-next-btn" onclick="showQuizForm()">Go Next</button>
@@ -126,7 +135,19 @@
     };
 
     function handleFileSelection() {
-        document.getElementById("go-next-btn").classList.remove("hidden");
+        let fileInput = document.getElementById("fileInput");
+        let fileNameDisplay = document.getElementById("file-name");
+        let goNextBtn = document.getElementById("go-next-btn");
+
+        if (fileInput.files.length > 0) {
+            fileNameDisplay.textContent = `Selected File: ${fileInput.files[0].name}`;
+            fileNameDisplay.classList.remove("hidden");
+            goNextBtn.classList.remove("hidden");
+        } else {
+            fileNameDisplay.textContent = "";
+            fileNameDisplay.classList.add("hidden");
+            goNextBtn.classList.add("hidden");
+        }
     }
 
     document.getElementById("input-text").addEventListener("input", function () {
@@ -178,28 +199,6 @@
     }
 
     function resetQuiz() {
-        document.getElementById("input-section").classList.remove("hidden");
-        document.getElementById("quiz-form").classList.add("hidden");
-        document.getElementById("go-next-btn").classList.add("hidden");
-        document.getElementById("input-text").value = "";
-        document.getElementById("fileInput").value = "";
-
-        // Reset selected options
-        selectedOptions = {
-            "quiz-type": null,
-            "usage-type": null,
-            "num-questions": null,
-            "quiz-mode": null
-        };
-
-        // Reset button styles
-        let buttons = document.querySelectorAll(".btn-primary");
-        buttons.forEach(btn => {
-            btn.classList.remove("btn-primary");
-            btn.classList.add("btn-outline-primary");
-        });
-
-        // Hide quiz result
-        document.getElementById("quiz-result").classList.add("hidden");
+        location.reload(); // Quick way to reset everything
     }
 </script>
