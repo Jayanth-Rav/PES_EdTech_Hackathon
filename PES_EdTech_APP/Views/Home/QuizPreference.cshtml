@@ -1,0 +1,71 @@
+﻿<link rel="stylesheet" href="~/css/Index.cshtml.css">
+
+
+<form asp-controller="Home" asp-action="QuizPage" method="get">
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card p-4">
+                    <h1 class="text-center">Quizify: AI Quiz Creator</h1>
+
+                    <!-- Input Section -->
+                    <!-- Quiz Settings Form (Hidden Initially) -->
+                    <div id="quiz-form" class="hidden mt-3 form-section">
+                        <h3 class="text-center">Select Quiz Preferences</h3>
+
+                        <!-- Quiz Type -->
+                        <label class="form-label mt-2">Quiz Type:</label>
+                        <div class="btn-group w-100">
+                            <button class="btn btn-outline-primary w-50" onclick="selectOption('quiz-type', 'single', this)">Single Input</button>
+                            <button class="btn btn-outline-primary w-50" onclick="selectOption('quiz-type', 'multiple', this)">Multiple Input</button>
+                        </div>
+
+                        <!-- Usage Type -->
+                        <label class="form-label mt-2">Usage:</label>
+                        <div class="btn-group w-100">
+                            <button class="btn btn-outline-primary w-50" onclick="selectOption('usage-type', 'self', this)">For Self</button>
+                            <button class="btn btn-outline-primary w-50" onclick="selectOption('usage-type', 'share', this)">For Sharing</button>
+                        </div>
+
+                        <!-- Number of Questions -->
+                        <label class="form-label mt-2">Number of Questions:</label>
+                        <div class="btn-group w-100">
+                            <button class="btn btn-outline-primary w-33" onclick="selectOption('num-questions', '10', this)">10</button>
+                            <button class="btn btn-outline-primary w-33" onclick="selectOption('num-questions', '20', this)">20</button>
+                            <button class="btn btn-outline-primary w-33" onclick="selectOption('num-questions', '30', this)">30</button>
+                        </div>
+
+                        <!-- Mode Selection -->
+                        <label class="form-label mt-2">Mode:</label>
+                        <div class="btn-group w-100">
+                            <button class="btn btn-outline-primary w-50" onclick="selectOption('quiz-mode', 'strict', this)">Strict Mode</button>
+                            <button class="btn btn-outline-primary w-50" onclick="selectOption('quiz-mode', 'learning', this)">Learning Mode</button>
+                        </div>
+
+                        <!-- Generate Quiz & New Quiz Buttons -->
+                        <div class="d-flex justify-content-between mt-3">
+                            <button class="btn btn-primary w-50" id="generate-quiz-btn" type="submit">Generate Quiz</button>
+                            <button class="btn btn-danger w-50 ms-2" >New Quiz</button>
+                        </div>
+
+                        <!-- Quiz Display Area -->
+                        <div class="mt-3 p-3 border rounded hidden" id="quiz-result">
+                            <h3>Generated Quiz:</h3>
+                            <p id="quiz-content">Your quiz will appear here...</p>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+   @*  <button id="goNextButton" class="btn btn-success w-100 mt-3 hidden" type="submit">Go Next</button> *@
+</form>
+
+@section Scripts
+{
+    <script type="text/javascript" src="@Url.Content("/Views/Home/Index.cshtml.js")"></script>
+}

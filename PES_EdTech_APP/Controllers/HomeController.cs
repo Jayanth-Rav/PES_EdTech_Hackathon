@@ -22,6 +22,16 @@ namespace PES_EdTech_APP.Controllers
             return View();
         }
 
+        public IActionResult QuizPreference()
+        {
+            return View();
+        }
+
+        public IActionResult QuizPage()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

@@ -33,10 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
         goNextBtn.classList.toggle("hidden", inputText.value.trim().length === 0);
     });
 
-    goNextBtn.addEventListener("click", () => {
-        quizForm.classList.remove("hidden");
-        inputSection.classList.add("hidden");
-    });
+    //goNextBtn.addEventListener("click", () => {
+    //    quizForm.classList.remove("hidden");
+    //    inputSection.classList.add("hidden");
+    //});
 
     document.querySelectorAll(".btn-group button").forEach(button => {
         button.addEventListener("click", (event) => {

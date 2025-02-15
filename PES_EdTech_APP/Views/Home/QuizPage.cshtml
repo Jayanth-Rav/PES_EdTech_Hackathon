@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<link rel="stylesheet" href="~/css/Index.cshtml.css">
+<!-- Quiz Display Area (Hidden Initially) -->
+
+
+<form asp-controller="Home" asp-action="Index" method="get">
+    <div id="quiz-section" class="hidden mt-3">
+        <span id="quiz-question" class="text-center" style="color: #007bff; font-weight: bold;">Questions</span>
+
+
+        <div class="list-group mt-3" id="quiz-options"></div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button>
+            <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Next</button>
+        </div>
+
+        <button class="btn btn-danger w-100 mt-3" type="submit">Exit Quiz</button>
+    </div>
+    @* <button id="goNextButton" class="btn btn-success w-100 mt-3 hidden" type="submit">Go Next</button> *@
+</form>
+
+@* 
+@section Scripts
+{
+    <script type="text/javascript" src="@Url.Content("/Views/Home/Index.cshtml.js")"></script>
+} *@
