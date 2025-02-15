@@ -10,11 +10,13 @@
         <span id="quiz-question" class="text-center" style="color: #007bff; font-weight: bold;">Questions</span>
 
 
-        <div class="list-group mt-3" id="quiz-options"></div>
+        <div class="list-group mt-3" id="quiz-options">
+
+        </div>
 
         <div class="d-flex justify-content-between mt-3">
-            <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button>
-            <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Next</button>
+            <button class="btn btn-secondary" id="prev-btn">Previous</button>
+            <button class="btn btn-primary" id="next-btn">Next</button>
         </div>
 
         <button class="btn btn-danger w-100 mt-3" type="submit">Exit Quiz</button>
@@ -22,8 +24,8 @@
     @* <button id="goNextButton" class="btn btn-success w-100 mt-3 hidden" type="submit">Go Next</button> *@
 </form>
 
-@* 
+
 @section Scripts
 {
-    <script type="text/javascript" src="@Url.Content("/Views/Home/Index.cshtml.js")"></script>
-} *@
+    <script type="text/javascript" src="@Url.Content("/Views/Home/QuizPage.cshtml.js")" defer></script>
+}
