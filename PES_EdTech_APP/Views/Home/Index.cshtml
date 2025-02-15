@@ -25,7 +25,7 @@
                     <div id="file-name" class="file-label hidden"></div>
 
                     <!-- Go Next Button -->
-                    <button class="btn btn-success w-100 mt-3 hidden" id="go-next-btn" onclick="showQuizForm()">Go Next</button>
+                    <button class="btn btn-success w-100 mt-3 hidden" id="go-next-btn">Go Next</button>
                 </div>
 
                 <!-- Quiz Settings Form (Hidden Initially) -->
@@ -63,7 +63,7 @@
 
                     <!-- Generate Quiz & New Quiz Buttons -->
                     <div class="d-flex justify-content-between mt-3">
-                        <button class="btn btn-primary w-50" onclick="generateQuiz()">Generate Quiz</button>
+                        <button class="btn btn-primary w-50" id="generate-quiz-btn">Generate Quiz</button>
                         <button class="btn btn-danger w-50 ms-2" onclick="resetQuiz()">New Quiz</button>
                     </div>
 
@@ -72,7 +72,25 @@
                         <h3>Generated Quiz:</h3>
                         <p id="quiz-content">Your quiz will appear here...</p>
                     </div>
+
                 </div>
+
+                <!-- Quiz Display Area (Hidden Initially) -->
+                <div id="quiz-section" class="hidden mt-3">
+                    <span id="quiz-question" class="text-center" style="color: #007bff; font-weight: bold;">Questions</span>
+
+
+                    <div class="list-group mt-3" id="quiz-options"></div>
+
+                    <div class="d-flex justify-content-between mt-3">
+                        <button class="btn btn-secondary" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button>
+                        <button class="btn btn-primary" id="next-btn" onclick="nextQuestion()">Next</button>
+                    </div>
+
+                    <button class="btn btn-danger w-100 mt-3" onclick="resetQuiz()">Exit Quiz</button>
+                </div>
+
+
             </div>
         </div>
     </div>

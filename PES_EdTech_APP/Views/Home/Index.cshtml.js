@@ -15,10 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputText = document.getElementById("input-text");
     const quizForm = document.getElementById("quiz-form");
     const inputSection = document.getElementById("input-section");
-    const generateQuizBtn = document.getElementById("generate-quiz-btn");
-    const resetQuizBtn = document.getElementById("reset-quiz-btn");
-    const quizContent = document.getElementById("quiz-content");
-    const quizResult = document.getElementById("quiz-result");
+
 
     fileInput.addEventListener("change", () => {
         if (fileInput.files.length > 0) {
@@ -59,25 +56,79 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    generateQuizBtn.addEventListener("click", () => {
-        for (let key in selectedOptions) {
-            if (!selectedOptions[key]) {
-                alert("Please select an option for all categories.");
-                return;
-            }
+
+    //const quizForm = document.getElementById("quiz-form");
+   // const inputSection = document.getElementById("input-section");
+    const generateQuizBtn = document.getElementById("generate-quiz-btn");
+    const quizSection = document.getElementById("quiz-section");
+    const quizQuestion = document.getElementById("quiz-question");
+    const quizOptions = document.getElementById("quiz-options");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+
+    let quizData = [
+        {
+            question: "What is the key concept in this text?",
+            options: ["Option A", "Option B", "Option C", "Option D"],
+        },
+        {
+            question: "Identify the main points discussed.",
+            options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+        },
+        {
+            question: "Summarize the text.",
+            options: ["Summary A", "Summary B", "Summary C", "Summary D"],
         }
+    ];
 
-        let quizContentHtml = `
-            <ul>
-                <li>1. What is the key concept in this text?</li>
-                <li>2. Identify the main points discussed.</li>
-                <li>3. Summarize the text.</li>
-            </ul>`;
+    let currentQuestionIndex = 0;
 
-        quizContent.innerHTML = quizContentHtml;
-        quizResult.classList.remove("hidden");
+    function loadQuestion() {
+        let questionObj = quizData[currentQuestionIndex];
+        quizQuestion.textContent = questionObj.question;
+
+        quizOptions.innerHTML = "";
+        questionObj.options.forEach((option) => {
+            let button = document.createElement("button");
+            button.classList.add("list-group-item", "list-group-item-action");
+            button.textContent = option;
+            button.onclick = () => selectAnswer(option);
+            quizOptions.appendChild(button);
+        });
+
+        prevBtn.disabled = currentQuestionIndex === 0;
+        nextBtn.disabled = currentQuestionIndex === quizData.length - 1;
+    }
+
+    function selectAnswer(selected) {
+        sessionStorage.setItem(`answer-${currentQuestionIndex}`, selected);
+    }
+
+    window.nextQuestion = function () {
+        if (currentQuestionIndex < quizData.length - 1) {
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+    };
+
+    window.prevQuestion = function () {
+        if (currentQuestionIndex > 0) {
+            currentQuestionIndex--;
+            loadQuestion();
+        }
+    };
+
+    window.resetQuiz = function () {
+        location.reload();
+    };
+
+    generateQuizBtn.addEventListener("click", () => {
+        quizForm.classList.add("hidden");
+        inputSection.classList.add("hidden");
+        // quizSection.classList.remove("hidden");
+        $("#quiz-section").show();
+        loadQuestion();
     });
-
     //resetQuizBtn.addEventListener("click", () => {
     //    location.reload();
     //});
