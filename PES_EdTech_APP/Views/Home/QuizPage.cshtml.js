@@ -1,5 +1,6 @@
 ﻿
 document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("submit-quiz-btn").style.display = "block";
     let quizData = [
         {
             question: "What is the key concept in this text?",

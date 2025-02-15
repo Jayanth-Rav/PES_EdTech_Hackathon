@@ -1,0 +1,25 @@
+﻿<form asp-controller="Home" asp-action="Index" method="get">
+    <div id="quiz-section" class="hidden mt-3">
+        <div class="container mt-5 text-center">
+            <h2>Quiz Results</h2>
+
+            <!-- Progress Bar -->
+            <div class="progress mt-4" style="height: 30px;">
+                <div id="quiz-progress-bar" class="progress-bar bg-success"
+                     role="progressbar" style="width: 0%;" aria-valuenow="0"
+                     aria-valuemin="0" aria-valuemax="100">
+                    0%
+                </div>
+            </div>
+
+            <!-- Display Score -->
+            <h4 class="mt-3">Your Score: <span id="quiz-score">0</span>%</h4>
+    </div>
+    @* <button id="goNextButton" class="btn btn-success w-100 mt-3 hidden" type="submit">Go Next</button> *@
+</form>
+
+
+@section Scripts
+{
+    <script type="text/javascript" src="@Url.Content("/Views/Home/QuizResult.cshtml.js")" defer></script>
+}
