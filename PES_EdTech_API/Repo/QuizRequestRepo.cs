@@ -104,7 +104,7 @@ namespace PES_EdTech_API.Repo
 
         public async Task<List<Questions>> GetQuizQuestions(QuizRequest quizRequest)
         {
-            string inputText = "Albert Einstein was a theoretical physicist known for the theory of relativity.";
+            string inputText = quizRequest.QuizTopic;
 
             string prompt = $@"
 Generate a JSON response **ONLY**, no extra text.
