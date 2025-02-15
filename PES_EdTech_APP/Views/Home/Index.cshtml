@@ -1,8 +1,205 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+<style>
+    /* General Styling */
+    .hidden {
+        display: none;
+    }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    .card {
+        border-radius: 10px;
+        background: #f8f9fa;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-group button {
+        border-radius: 30px;
+        margin: 5px;
+    }
+
+    .btn-primary {
+        background: #007bff;
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+    .btn-outline-primary {
+        border: 1px solid #007bff;
+        color: #007bff;
+    }
+
+        .btn-outline-primary:hover {
+            background: #007bff;
+            color: #fff;
+        }
+
+    .form-section {
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card p-4">
+                <h1 class="text-center">EdTech Quiz Generator</h1>
+
+                <!-- Input Section -->
+                <div id="input-section">
+                    <div class="input-group mt-3">
+                        <textarea id="input-text" class="form-control" placeholder="Enter your text..."></textarea>
+                        <button class="btn btn-light" disabled><i class="fa fa-microphone"></i></button>
+                        <button class="btn btn-light" disabled><i class="fa fa-camera"></i></button>
+                        <button class="btn btn-light" onclick="document.getElementById('fileInput').click();">
+                            <i class="fa fa-file"></i>
+                        </button>
+                        <input type="file" id="fileInput" style="display:none" onchange="handleFileSelection()">
+                    </div>
+
+                    <!-- Go Next Button -->
+                    <button class="btn btn-success w-100 mt-3 hidden" id="go-next-btn" onclick="showQuizForm()">Go Next</button>
+                </div>
+
+                <!-- Quiz Settings Form (Hidden Initially) -->
+                <div id="quiz-form" class="hidden mt-3 form-section">
+                    <h3 class="text-center">Select Quiz Preferences</h3>
+
+                    <!-- Quiz Type -->
+                    <label class="form-label mt-2">Quiz Type:</label>
+                    <div class="btn-group w-100">
+                        <button class="btn btn-outline-primary w-50" onclick="selectOption('quiz-type', 'single', this)">Single Input</button>
+                        <button class="btn btn-outline-primary w-50" onclick="selectOption('quiz-type', 'multiple', this)">Multiple Input</button>
+                    </div>
+
+                    <!-- Usage Type -->
+                    <label class="form-label mt-2">Usage:</label>
+                    <div class="btn-group w-100">
+                        <button class="btn btn-outline-primary w-50" onclick="selectOption('usage-type', 'self', this)">For Self</button>
+                        <button class="btn btn-outline-primary w-50" onclick="selectOption('usage-type', 'share', this)">For Sharing</button>
+                    </div>
+
+                    <!-- Number of Questions -->
+                    <label class="form-label mt-2">Number of Questions:</label>
+                    <div class="btn-group w-100">
+                        <button class="btn btn-outline-primary w-33" onclick="selectOption('num-questions', '10', this)">10</button>
+                        <button class="btn btn-outline-primary w-33" onclick="selectOption('num-questions', '20', this)">20</button>
+                        <button class="btn btn-outline-primary w-33" onclick="selectOption('num-questions', '30', this)">30</button>
+                    </div>
+
+                    <!-- Mode Selection -->
+                    <label class="form-label mt-2">Mode:</label>
+                    <div class="btn-group w-100">
+                        <button class="btn btn-outline-primary w-50" onclick="selectOption('quiz-mode', 'strict', this)">Strict Mode</button>
+                        <button class="btn btn-outline-primary w-50" onclick="selectOption('quiz-mode', 'learning', this)">Learning Mode</button>
+                    </div>
+
+                    <!-- Generate Quiz & New Quiz Buttons -->
+                    <div class="d-flex justify-content-between mt-3">
+                        <button class="btn btn-primary w-50" onclick="generateQuiz()">Generate Quiz</button>
+                        <button class="btn btn-danger w-50 ms-2" onclick="resetQuiz()">New Quiz</button>
+                    </div>
+
+                    <!-- Quiz Display Area -->
+                    <div class="mt-3 p-3 border rounded hidden" id="quiz-result">
+                        <h3>Generated Quiz:</h3>
+                        <p id="quiz-content">Your quiz will appear here...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<script>
+    let selectedOptions = {
+        "quiz-type": null,
+        "usage-type": null,
+        "num-questions": null,
+        "quiz-mode": null
+    };
+
+    function handleFileSelection() {
+        document.getElementById("go-next-btn").classList.remove("hidden");
+    }
+
+    document.getElementById("input-text").addEventListener("input", function () {
+        let inputText = this.value.trim();
+        let goNextBtn = document.getElementById("go-next-btn");
+
+        if (inputText.length > 0) {
+            goNextBtn.classList.remove("hidden");
+        } else {
+            goNextBtn.classList.add("hidden");
+        }
+    });
+
+    function showQuizForm() {
+        document.getElementById("quiz-form").classList.remove("hidden");
+        document.getElementById("input-section").classList.add("hidden");
+    }
+
+    function selectOption(category, value, element) {
+        selectedOptions[category] = value;
+
+        let buttons = element.parentElement.children;
+        for (let btn of buttons) {
+            btn.classList.remove("btn-primary");
+            btn.classList.add("btn-outline-primary");
+        }
+
+        element.classList.remove("btn-outline-primary");
+        element.classList.add("btn-primary");
+    }
+
+    function generateQuiz() {
+        for (let key in selectedOptions) {
+            if (!selectedOptions[key]) {
+                alert("Please select an option for all categories.");
+                return;
+            }
+        }
+
+        let quizContent = `
+                <ul>
+                    <li>1. What is the key concept in this text?</li>
+                    <li>2. Identify the main points discussed.</li>
+                    <li>3. Summarize the text.</li>
+                </ul>`;
+
+        document.getElementById("quiz-content").innerHTML = quizContent;
+        document.getElementById("quiz-result").classList.remove("hidden");
+    }
+
+    function resetQuiz() {
+        document.getElementById("input-section").classList.remove("hidden");
+        document.getElementById("quiz-form").classList.add("hidden");
+        document.getElementById("go-next-btn").classList.add("hidden");
+        document.getElementById("input-text").value = "";
+        document.getElementById("fileInput").value = "";
+
+        // Reset selected options
+        selectedOptions = {
+            "quiz-type": null,
+            "usage-type": null,
+            "num-questions": null,
+            "quiz-mode": null
+        };
+
+        // Reset button styles
+        let buttons = document.querySelectorAll(".btn-primary");
+        buttons.forEach(btn => {
+            btn.classList.remove("btn-primary");
+            btn.classList.add("btn-outline-primary");
+        });
+
+        // Hide quiz result
+        document.getElementById("quiz-result").classList.add("hidden");
+    }
+</script>
