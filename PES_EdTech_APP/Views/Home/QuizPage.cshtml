@@ -23,6 +23,13 @@
     </div>
     @* <button id="goNextButton" class="btn btn-success w-100 mt-3 hidden" type="submit">Go Next</button> *@
 </form>
+<form asp-controller="Home" asp-action="QuizResult" method="post"> 
+    <button id="submit-quiz-btn" class="btn btn-success rounded-circle" type="submit"
+            style="display: block; margin: 35px auto 0; width: 100px; height: 67px; font-size: 13px; text-align: center;">
+        SUBMIT ✔
+    </button>
+
+</form>
 
 
 @section Scripts
