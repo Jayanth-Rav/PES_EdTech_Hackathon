@@ -4,6 +4,6 @@ namespace PES_EdTech_API.Repo
 {
     public interface IQuizRequest
     {
-        Task<String> GetQuizQuestions(QuizRequest quizRequest);
+        Task<List<Questions>> GetQuizQuestions(QuizRequest quizRequest);
     }
 }
