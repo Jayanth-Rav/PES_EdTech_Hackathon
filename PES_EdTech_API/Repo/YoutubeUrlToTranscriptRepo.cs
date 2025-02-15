@@ -34,9 +34,15 @@ namespace PES_EdTech_API.Repo
                 var sb = new StringBuilder();
                 foreach (var item in transcriptItems)
                 {
-                    sb.AppendLine(item.Text);
+                    // Remove newline characters and quotes
+                    var cleanedText = item.Text
+                        .Replace("\r", "")
+                        .Replace("\n", "")
+                        .Replace("'", "")
+                        .Replace("\"", "");
+                    sb.Append(cleanedText + " ");
                 }
-                return sb.ToString();
+                return sb.ToString().Trim();
             }
             catch (Exception ex)
             {
