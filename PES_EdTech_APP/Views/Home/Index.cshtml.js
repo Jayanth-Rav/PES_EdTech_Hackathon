@@ -11,27 +11,38 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const fileInput = document.getElementById("fileInput");
     const fileNameDisplay = document.getElementById("file-name");
-    const goNextBtn = document.getElementById("go-next-btn");
+    const goNextBtn = document.querySelector("button[type='submit']");
     const inputText = document.getElementById("input-text");
     const quizForm = document.getElementById("quiz-form");
     const inputSection = document.getElementById("input-section");
 
 
-    fileInput.addEventListener("change", () => {
-        if (fileInput.files.length > 0) {
+    function validateInput() {
+        // Enable button only if there's text input or a selected file
+        if (inputText.value.trim().length > 0 || fileInput.files.length > 0) {
+            goNextBtn.removeAttribute("disabled");
             fileNameDisplay.textContent = `Selected File: ${fileInput.files[0].name}`;
             fileNameDisplay.classList.remove("hidden");
-            goNextBtn.classList.remove("hidden");
         } else {
             fileNameDisplay.textContent = "";
             fileNameDisplay.classList.add("hidden");
-            goNextBtn.classList.add("hidden");
+            goNextBtn.setAttribute("disabled", "true");
+        }
+    }
+
+    // Listen for changes in text input and file selection
+    inputText.addEventListener("input", validateInput);
+    fileInput.addEventListener("change", validateInput);
+
+    goNextBtn.addEventListener("click", (event) => {
+        if (inputText.value.trim().length === 0 && fileInput.files.length === 0) {
+            event.preventDefault(); // Stop form submission if both are empty
+            alert("Please enter text or attach a file before proceeding.");
         }
     });
 
-    inputText.addEventListener("input", () => {
-        goNextBtn.classList.toggle("hidden", inputText.value.trim().length === 0);
-    });
+    // Initially disable button until input is provided
+    goNextBtn.setAttribute("disabled", "true");
 
     //goNextBtn.addEventListener("click", () => {
     //    quizForm.classList.remove("hidden");
