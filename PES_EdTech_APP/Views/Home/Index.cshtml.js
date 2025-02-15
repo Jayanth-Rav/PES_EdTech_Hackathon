@@ -1,4 +1,7 @@
-﻿document.addEventListener("DOMContentLoaded", () => {
+﻿function resetQuiz() {
+    location.reload(); // Quick way to reset everything
+}
+document.addEventListener("DOMContentLoaded", () => {
     let selectedOptions = {
         "quiz-type": null,
         "usage-type": null,
@@ -75,7 +78,7 @@
         quizResult.classList.remove("hidden");
     });
 
-    resetQuizBtn.addEventListener("click", () => {
-        location.reload();
-    });
+    //resetQuizBtn.addEventListener("click", () => {
+    //    location.reload();
+    //});
 });
