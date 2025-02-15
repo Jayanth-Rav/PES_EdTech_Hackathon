@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Enable button only if there's text input or a selected file
         if (inputText.value.trim().length > 0 || fileInput.files.length > 0) {
             goNextBtn.removeAttribute("disabled");
-            fileNameDisplay.textContent = `Selected File: ${fileInput.files[0].name}`;
+            //fileNameDisplay.textContent = `Selected File: ${fileInput.files[0].name}`;
             fileNameDisplay.classList.remove("hidden");
         } else {
             fileNameDisplay.textContent = "";

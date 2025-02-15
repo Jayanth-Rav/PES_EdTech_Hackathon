@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using PES_EdTech_APP.Models;
 using System.Diagnostics;
+using System.Net;
 using System.Text;
+using System.Text.Json;
 
 namespace PES_EdTech_APP.Controllers
 {
@@ -35,7 +37,36 @@ namespace PES_EdTech_APP.Controllers
         {
             try
             {
-                // Serialize the model to JSON
+                if (!string.IsNullOrWhiteSpace(model.QuizTopic) &&
+                (model.QuizTopic.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
+                 model.QuizTopic.StartsWith("https://", StringComparison.OrdinalIgnoreCase)))
+                {
+                    // Create the request model and serialize it as JSON using System.Text.Json.
+                    var requestModel = new { VideoUrl = model.QuizTopic };
+                    var jsondata = System.Text.Json.JsonSerializer.Serialize(requestModel);
+
+                    // Rename the variable to 'requestContent' to avoid conflict.
+                    var requestContent = new StringContent(jsondata, Encoding.UTF8, "application/json");
+
+                    // Make a POST request.
+                    HttpResponseMessage transcriptResponse = await _client.PostAsync(
+                        _client.BaseAddress + "/youtubeapi/YoutubeUrlToTranscript", requestContent);
+
+                    if (transcriptResponse != null && transcriptResponse.IsSuccessStatusCode)
+                    {
+                        // Optionally, deserialize the response JSON to get the transcript.
+                        var jsonResponse = await transcriptResponse.Content.ReadAsStringAsync();
+                        using (JsonDocument doc = JsonDocument.Parse(jsonResponse))
+                        {
+                            if (doc.RootElement.TryGetProperty("transcript", out JsonElement transcriptElement))
+                            {
+                                model.QuizTopic = transcriptElement.GetString();
+                            }
+                        }
+                    }
+                }
+
+                List<Questions> question = new List<Questions>();
                 string data = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
 
