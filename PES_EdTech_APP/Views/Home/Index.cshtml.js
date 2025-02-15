@@ -70,14 +70,17 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             question: "What is the key concept in this text?",
             options: ["Option A", "Option B", "Option C", "Option D"],
+            correctAnswers: ["Option A", "Option B"]
         },
         {
             question: "Identify the main points discussed.",
             options: ["Option 1", "Option 2", "Option 3", "Option 4"],
+            correctAnswers: ["Option 1", "Option 2"]
         },
         {
             question: "Summarize the text.",
             options: ["Summary A", "Summary B", "Summary C", "Summary D"],
+            correctAnswers: ["Summary A", "Summary B"]
         }
     ];
 
@@ -92,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let button = document.createElement("button");
             button.classList.add("list-group-item", "list-group-item-action");
             button.textContent = option;
-            button.onclick = () => selectAnswer(option);
+            button.onclick = () => selectAnswer(button, option, questionObj.correctAnswers);
             quizOptions.appendChild(button);
         });
 
@@ -100,9 +103,24 @@ document.addEventListener("DOMContentLoaded", () => {
         nextBtn.disabled = currentQuestionIndex === quizData.length - 1;
     }
 
-    function selectAnswer(selected) {
+    function selectAnswer(button, selected, correctAnswers) {
+        let isCorrect = correctAnswers.includes(selected);
+
+        // Reset all button borders before setting new selection
+        document.querySelectorAll("#quiz-options button").forEach(btn => {
+            btn.style.border = ""; // Reset to default
+        });
+
+        if (isCorrect) {
+            button.style.border = "2px solid green"; // Green border for correct
+        } else {
+            button.style.border = "2px solid red";   // Red border for incorrect
+        }
+
         sessionStorage.setItem(`answer-${currentQuestionIndex}`, selected);
     }
+
+
 
     window.nextQuestion = function () {
         if (currentQuestionIndex < quizData.length - 1) {
