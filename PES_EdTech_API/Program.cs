@@ -17,6 +17,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddScoped<DapperDBContext>();
 builder.Services.AddScoped<IEmployeeRepo, EmployeeRepo>();
 builder.Services.AddScoped<IQuizRequest, QuizRequestRepo>();
+//builder.Services.AddHttpClient<IYoutubeUrlToTranscriptRepo, YoutubeUrlToTranscriptRepo>();
+builder.Services.AddScoped<IYoutubeUrlToTranscriptRepo, YoutubeUrlToTranscriptRepo>();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
