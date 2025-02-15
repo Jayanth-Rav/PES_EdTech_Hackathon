@@ -1,55 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<style>
-    /* General Styling */
-    .hidden {
-        display: none;
-    }
-
-    .card {
-        border-radius: 10px;
-        background: #f8f9fa;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .btn-group button {
-        border-radius: 30px;
-        margin: 5px;
-    }
-
-    .btn-primary {
-        background: #007bff;
-        border: none;
-    }
-
-        .btn-primary:hover {
-            background: #0056b3;
-        }
-
-    .btn-outline-primary {
-        border: 1px solid #007bff;
-        color: #007bff;
-    }
-
-        .btn-outline-primary:hover {
-            background: #007bff;
-            color: #fff;
-        }
-
-    .form-section {
-        padding: 15px;
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .file-label {
-        font-size: 14px;
-        margin-top: 5px;
-        color: #555;
-    }
-</style>
+<link rel="stylesheet" href="~/css/Index.cshtml.css">
 
 <div class="container mt-4">
     <div class="row justify-content-center">
@@ -126,79 +78,7 @@
     </div>
 </div>
 
-<script>
-    let selectedOptions = {
-        "quiz-type": null,
-        "usage-type": null,
-        "num-questions": null,
-        "quiz-mode": null
-    };
-
-    function handleFileSelection() {
-        let fileInput = document.getElementById("fileInput");
-        let fileNameDisplay = document.getElementById("file-name");
-        let goNextBtn = document.getElementById("go-next-btn");
-
-        if (fileInput.files.length > 0) {
-            fileNameDisplay.textContent = `Selected File: ${fileInput.files[0].name}`;
-            fileNameDisplay.classList.remove("hidden");
-            goNextBtn.classList.remove("hidden");
-        } else {
-            fileNameDisplay.textContent = "";
-            fileNameDisplay.classList.add("hidden");
-            goNextBtn.classList.add("hidden");
-        }
-    }
-
-    document.getElementById("input-text").addEventListener("input", function () {
-        let inputText = this.value.trim();
-        let goNextBtn = document.getElementById("go-next-btn");
-
-        if (inputText.length > 0) {
-            goNextBtn.classList.remove("hidden");
-        } else {
-            goNextBtn.classList.add("hidden");
-        }
-    });
-
-    function showQuizForm() {
-        document.getElementById("quiz-form").classList.remove("hidden");
-        document.getElementById("input-section").classList.add("hidden");
-    }
-
-    function selectOption(category, value, element) {
-        selectedOptions[category] = value;
-
-        let buttons = element.parentElement.children;
-        for (let btn of buttons) {
-            btn.classList.remove("btn-primary");
-            btn.classList.add("btn-outline-primary");
-        }
-
-        element.classList.remove("btn-outline-primary");
-        element.classList.add("btn-primary");
-    }
-
-    function generateQuiz() {
-        for (let key in selectedOptions) {
-            if (!selectedOptions[key]) {
-                alert("Please select an option for all categories.");
-                return;
-            }
-        }
-
-        let quizContent = `
-                <ul>
-                    <li>1. What is the key concept in this text?</li>
-                    <li>2. Identify the main points discussed.</li>
-                    <li>3. Summarize the text.</li>
-                </ul>`;
-
-        document.getElementById("quiz-content").innerHTML = quizContent;
-        document.getElementById("quiz-result").classList.remove("hidden");
-    }
-
-    function resetQuiz() {
-        location.reload(); // Quick way to reset everything
-    }
-</script>
+@section Scripts
+{
+    <script type="text/javascript" src="@Url.Content("/Views/Home/Index.cshtml.js")"></script>
+}
