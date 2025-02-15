@@ -20,7 +20,7 @@
         const quizModeSelected = getSelectedValue("quiz-mode");
 
         // Ensure Quiz Topic is not empty
-        if (!inputTextHidden.value.trim()) {
+        if (!inputText.trim()) {
             isValid = false;
             errorMessage += "Quiz Topic cannot be empty.\n";
         }
@@ -53,10 +53,10 @@
         removeHiddenInputs();
 
         // Append selections as hidden input fields
-        appendHiddenInput(form, "QuizTopic", inputTextHidden);
+        appendHiddenInput(form, "QuizTopic", inputText);
         appendHiddenInput(form, "QuizType", quizTypeSelected);
         appendHiddenInput(form, "UsageType", usageTypeSelected);
-        appendHiddenInput(form, "NumberOfQuestions", numberOfQuestionsSelected);
+        appendHiddenInput(form, "NumberOfQuestion", numberOfQuestionsSelected);
         appendHiddenInput(form, "QuizMode", quizModeSelected);
     });
 
