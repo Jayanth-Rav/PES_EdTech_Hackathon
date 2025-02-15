@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using PES_EdTech_APP.Models;
 using System.Diagnostics;
+using System.Text;
 
 namespace PES_EdTech_APP.Controllers
 {
@@ -24,6 +26,28 @@ namespace PES_EdTech_APP.Controllers
 
         public IActionResult QuizPreference()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetQuestions(QuizRequestViewModel model)
+        {
+            try
+            {
+                string data = JsonConvert.SerializeObject(model);
+                StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await _client.PostAsync(_client.BaseAddress + "/QuizQuestion/GetQuizQuestions/GetQuizQuestions", content);
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["successMessage"] = "Employee Added.";
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["errorMessage"] = ex.Message;
+                return View();
+            }
             return View();
         }
 

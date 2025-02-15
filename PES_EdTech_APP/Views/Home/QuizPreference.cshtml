@@ -1,4 +1,4 @@
-﻿<link rel="stylesheet" href="~/css/Index.cshtml.css">
+﻿<link rel="stylesheet" href="~/css/QuizPreference.cshtml.css">
 
 
 <form asp-controller="Home" asp-action="QuizPage" method="get">
@@ -46,7 +46,7 @@
                         <!-- Generate Quiz & New Quiz Buttons -->
                         <div class="d-flex justify-content-between mt-3">
                             <button class="btn btn-primary w-50" id="generate-quiz-btn" type="submit">Generate Quiz</button>
-                            <button class="btn btn-danger w-50 ms-2" >New Quiz</button>
+                            <button class="btn btn-danger w-50 ms-2" type="button" onclick="location.href='@Url.Action("Index", "Home")'">New Quiz</button>
                         </div>
 
                         <!-- Quiz Display Area -->
@@ -67,5 +67,5 @@
 
 @section Scripts
 {
-    <script type="text/javascript" src="@Url.Content("/Views/Home/Index.cshtml.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/Views/Home/QuizPreference.cshtml.js")"></script>
 }
