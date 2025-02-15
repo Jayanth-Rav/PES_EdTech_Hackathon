@@ -35,14 +35,14 @@ namespace PES_EdTech_APP.Controllers
         {
             try
             {
-                Questions question = new Questions();
+                List<Questions> question = new List<Questions>();
                 string data = JsonConvert.SerializeObject(model);
                 StringContent content = new StringContent(data, Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await _client.PostAsync(_client.BaseAddress + "/QuizQuestion/GetQuizQuestions/GetQuizQuestions", content);
                 if (response.IsSuccessStatusCode)
                 {
                     string questionData = await response.Content.ReadAsStringAsync();
-                    question = JsonConvert.DeserializeObject<Questions>(questionData)!;
+                    question = JsonConvert.DeserializeObject<List<Questions>>(questionData)!;
                     return RedirectToAction("QuizPage");
                 }
                 return View(question);
