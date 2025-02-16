@@ -1,5 +1,6 @@
 ﻿document.addEventListener("DOMContentLoaded", () => {
     let quizData = [];
+    let selectedAnswers = {}; // Store selected answers per question
 
     // Retrieve questions from the page
     document.querySelectorAll(".question-block").forEach((block, index) => {
@@ -19,6 +20,9 @@
             options: options,
             answerId: answerId
         });
+
+        // Initialize selected answers
+        selectedAnswers[index] = null;
     });
 
     let currentQuestionIndex = 0;
@@ -26,11 +30,37 @@
     function loadQuestion() {
         document.querySelectorAll(".question-block").forEach((block, index) => {
             block.style.display = index === currentQuestionIndex ? "block" : "none";
+
+            // Restore selected answer
+            if (index === currentQuestionIndex && selectedAnswers[index] !== null) {
+                let selectedOption = block.querySelector(`[data-option="${selectedAnswers[index]}"]`);
+                if (selectedOption) {
+                    selectedOption.classList.add("selected");
+                }
+            }
         });
 
         document.getElementById("prev-btn").disabled = currentQuestionIndex === 0;
         document.getElementById("next-btn").disabled = currentQuestionIndex === quizData.length - 1;
     }
+
+    // Event listener for selecting options
+    document.querySelectorAll(".quiz-option").forEach(button => {
+        button.addEventListener("click", (event) => {
+            let questionBlock = event.target.closest(".question-block");
+            let questionIndex = parseInt(questionBlock.getAttribute("data-index"));
+            let selectedOptionId = event.target.getAttribute("data-option");
+
+            // Remove existing selection in the question block
+            questionBlock.querySelectorAll(".quiz-option").forEach(opt => opt.classList.remove("selected"));
+
+            // Highlight the selected option
+            event.target.classList.add("selected");
+
+            // Store selected answer
+            selectedAnswers[questionIndex] = selectedOptionId;
+        });
+    });
 
     document.getElementById("prev-btn").addEventListener("click", (event) => {
         event.preventDefault();

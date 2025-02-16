@@ -1,2 +1,5 @@
-﻿body {
+﻿.quiz-option.selected {
+    background-color: #ffeb3b !important; /* Slightly dark yellow */
+    color: black;
+    font-weight: bold;
 }
