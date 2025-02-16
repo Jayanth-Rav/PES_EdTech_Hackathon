@@ -108,6 +108,11 @@ namespace PES_EdTech_APP.Controllers
             return View(new List<Questions>()); // Empty list if no data
         }
 
+        public IActionResult QuizResult(float answerCount)
+        {
+            return View(answerCount);
+        }
+
         public IActionResult Privacy()
         {
             return View();

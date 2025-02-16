@@ -79,8 +79,25 @@
     });
 
     document.getElementById("submit-quiz-btn").addEventListener("click", () => {
-        alert("Quiz Submitted!");
+    alert("Quiz Submitted!");
+    let userAnswers = [];
+
+    document.querySelectorAll(".question-block").forEach((block, index) => {
+        let selectedOption = selectedAnswers[index];
+        userAnswers.push({
+            questionIndex: index,
+            selectedOption: selectedOption
+        });
     });
+
+    // Calculate the correct answer count by comparing selected answers with quizData.answerId
+    const answerCount = quizData.reduce((acc, question, index) => {
+        return acc + (selectedAnswers[index] === question.answerId ? 1 : 0);
+    }, 0);
+
+    window.location.href = `/Home/QuizResult?count=${answerCount}`;
+});
+
 
     loadQuestion();
 });
